@@ -29,7 +29,6 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     public void updateDataWeather(View view) {
-        EditText cityName = findViewById(R.id.search_bar);
         getWeatherData(citySearch.getText().toString());
     }
 
