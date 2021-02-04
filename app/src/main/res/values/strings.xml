@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">weather</string>
+    <string name="app_context">Приложение для просмотра погоды и записи звука</string>
+
+    <string name="search_weather">Поиск погоды</string>
+    <string name="record">Запись звука</string>
+    <string name="not_found">Данные не найдены</string>
+    <string name="city_name">Введите название города, на английском</string>
+    <string name="forecast_day">Введите количество дней</string>
+
+<!--    ursl Call current weather-->
+<!--    <string name="api_open_weather_map_url">http://api.openweathermap.org/data/2.5/weather</string>-->
+
+<!--    url daily forecast data -->
+    <string name="api_open_weather_map_url">api.openweathermap.org/data/2.5/forecast/daily</string>
+    <string name="api_key">appid</string>
+
+<!--    your appid key -->
+    <string name="appid_key_value">1874508f437e15606cee1e46408f6da4</string>
+
+<!--    q = City name, state code and country code divided by comma, use ISO 3166 country codes.-->
+    <string name="city_key">q</string>
+
+<!--    Units of measurement. standard, metric and imperial units are available.
+If you do not use the units parameter, standard units will be applied by default.-->
+    <string name="metric">units</string>
+
+<!--    A number of days, which will be returned in the API response (from 1 to 16). -->
+    <string name="countDays">cnt</string>
+
+    <string name="update_data_weather">Обновить данные</string>
+    <string name="max_temp">Макс. температура</string>
+    <string name="min_temp">Мин. температура</string>
+<!--    <string name="temp_day"Температура на-->
+</resources>
+
