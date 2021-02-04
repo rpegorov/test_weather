@@ -2,8 +2,6 @@ package rpegorov.weather;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.androidnetworking.AndroidNetworking;
@@ -42,8 +40,8 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            viewMax.setText(String.valueOf(response.getJSONObject("main").getDouble("temp_max")) + " ℃");
-                            viewMin.setText(String.valueOf(response.getJSONObject("main").getDouble("temp_min")) + " ℃");
+                            viewMax.setText(response.getJSONObject("main").getDouble("temp_max") + " ℃");
+                            viewMin.setText(response.getJSONObject("main").getDouble("temp_min") + " ℃");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
