@@ -9,10 +9,7 @@
     <string name="forecast_day">Введите количество дней</string>
 
 <!--    ursl Call current weather-->
-<!--    <string name="api_open_weather_map_url">http://api.openweathermap.org/data/2.5/weather</string>-->
-
-<!--    url daily forecast data -->
-    <string name="api_open_weather_map_url">api.openweathermap.org/data/2.5/forecast/daily</string>
+    <string name="api_open_weather_map_url">http://api.openweathermap.org/data/2.5/weather</string>
     <string name="api_key">appid</string>
 
 <!--    your appid key -->
@@ -25,12 +22,9 @@
 If you do not use the units parameter, standard units will be applied by default.-->
     <string name="metric">units</string>
 
-<!--    A number of days, which will be returned in the API response (from 1 to 16). -->
-    <string name="countDays">cnt</string>
-
     <string name="update_data_weather">Обновить данные</string>
     <string name="max_temp">Макс. температура</string>
     <string name="min_temp">Мин. температура</string>
-<!--    <string name="temp_day"Температура на-->
+
 </resources>
 
