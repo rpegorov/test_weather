@@ -10,10 +10,15 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/** Клас для получения данных о погоде на текущий момент */
+
 public class WeatherActivity extends AppCompatActivity {
 
     TextView maxLayout, minLayout,
             viewMin, viewMax, citySearch;
+    /** Вызывается при входе в "полноценное состояние" инициализирует активити (activity_weather)
+     * AndroidNetworking - включает запросы на сервер и извлечение возвращенных данных
+     * findViewById - позволяет получить ссылку на View и инициализировать объект */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,17 +31,24 @@ public class WeatherActivity extends AppCompatActivity {
         citySearch = findViewById(R.id.search_bar);
     }
 
+    /** В данном методе инициализируем метод getWeatherData и передаем в него параметры (название города)
+     * введеные пользователем в search_bar*/
     public void updateDataWeather(View view) {
         getWeatherData(citySearch.getText().toString());
     }
 
+    /** С помощью AndroidNetworking делаем запрос на url и передаем параметры (addQueryParameter)
+     * методом getAsJSONObject получаем JSON который преобразуем объект */
     public void getWeatherData(String cityName) {
         AndroidNetworking.get(getResources().getString(R.string.api_open_weather_map_url))
                 .addQueryParameter(getResources().getString(R.string.city_key), cityName)
-                .addQueryParameter(getResources().getString(R.string.metric), "metric")
+                .addQueryParameter(getResources().getString(R.string.metric), getResources().getString(R.string.metric_value))
                 .addQueryParameter(getResources().getString(R.string.api_key), getResources().getString(R.string.appid_key_value))
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
+                    /** onResponse используется для чтения данных из объекта JSON JSONObject response
+                    * методом setText в объект (поле) viewMax записываем данные из метода getJSONObject
+                    * getJSONObject - извлекает в объекте JSON параметр "main" из него извлекаем парамтер "temp_max" */
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
@@ -46,7 +58,7 @@ public class WeatherActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-
+/** В случае какой либо ошибки вывыести сообщение из строки */
                     @Override
                     public void onError(ANError anError) {
                         System.out.println(R.string.not_found);
