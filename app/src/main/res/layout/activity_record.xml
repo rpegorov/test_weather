@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rec"
+            android:id="@+id/record"
+            android:layout_alignParentStart="true"
+            tools:ignore="MissingConstraints" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="228dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"
+            android:id="@+id/stop"
+            android:layout_centerHorizontal="true"
+            tools:ignore="MissingConstraints" app:layout_constraintStart_toEndOf="@+id/record"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="228dp" app:layout_constraintHorizontal_bias="0.506"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:id="@+id/play"
+            android:layout_alignParentEnd="true"
+            tools:ignore="MissingConstraints" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/record" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="228dp" app:layout_constraintHorizontal_bias="0.554"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_playing_recording"
+            android:id="@+id/stop_play_rec"
+            android:layout_centerHorizontal="true"
+            tools:ignore="MissingConstraints,UnknownId" app:layout_constraintTop_toBottomOf="@+id/record"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.257"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

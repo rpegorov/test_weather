@@ -4,7 +4,7 @@
 
     <!--Общие строки -->
     <string name="search_weather">Поиск погоды</string>
-    <string name="record">Запись звука</string>
+    <string name="record_button">Запись звука</string>
     <string name="not_found">Данные не найдены</string>
 
 
@@ -28,6 +28,10 @@ If you do not use the units parameter, standard units will be applied by default
     <string name="update_data_weather">Обновить данные</string>
     <string name="max_temp">Макс. температура</string>
     <string name="min_temp">Мин. температура</string>
+    <string name="play">Play</string>
+    <string name="stop">STOP</string>
+    <string name="rec">Rec</string>
+    <string name="stop_playing_recording">STOP PLAYING RECORDING</string>
 
 
 </resources>
