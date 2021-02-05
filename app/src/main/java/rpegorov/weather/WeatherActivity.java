@@ -3,12 +3,15 @@ package rpegorov.weather;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static rpegorov.weather.R.layout.activity_weather;
 
 /** Клас для получения данных о погоде на текущий момент */
 
@@ -22,7 +25,7 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
+        setContentView(activity_weather);
         AndroidNetworking.initialize(getApplicationContext());
         maxLayout = findViewById(R.id.max_temp);
         minLayout = findViewById(R.id.min_temp);
@@ -61,7 +64,8 @@ public class WeatherActivity extends AppCompatActivity {
 /** В случае какой либо ошибки вывыести сообщение из строки */
                     @Override
                     public void onError(ANError anError) {
-                        System.out.println(R.string.not_found);
+                        Toast.makeText(WeatherActivity.this, R.string.not_found,
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
