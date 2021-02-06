@@ -1,6 +1,7 @@
 package rpegorov.weather;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -47,7 +48,7 @@ public class RecordActivity extends AppCompatActivity {
         buttonStopPlayingRecording.setEnabled(false);
 
         random = new Random();
-        String[] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+        String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, permissions, RequestPermissionCode);
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,8 +57,8 @@ public class RecordActivity extends AppCompatActivity {
                 if (checkPermission()) {
 
                     AudioSavePathInDevice =
-                            Environment.getStorageDirectory() + "/" +
-                                    CreateRandomAudioFileName(5) + "AudioRec";
+                            Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                                    CreateRandomAudioFileName(5) + "AudioRec.3gp";
 
                     MediaRecorderReady();
 
@@ -137,8 +138,8 @@ public class RecordActivity extends AppCompatActivity {
     public void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);  // THREE_GPP
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.MPEG_4);  // AMR_NB
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
 
