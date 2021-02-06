@@ -3,6 +3,7 @@ package rpegorov.weather;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ public class RecordActivity extends AppCompatActivity {
         random = new Random();
         String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, permissions, RequestPermissionCode);
+
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,14 +107,17 @@ public class RecordActivity extends AppCompatActivity {
                 buttonStopPlayingRecording.setEnabled(true);
 
                 mediaPlayer = new MediaPlayer();
+                MediaPlayerReady();
+
                 try {
                     mediaPlayer.setDataSource(AudioSavePathInDevice);
                     mediaPlayer.prepare();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 mediaPlayer.start();
+
                 Toast.makeText(RecordActivity.this, "Recording Playing",
                         Toast.LENGTH_LONG).show();
             }
@@ -141,6 +146,15 @@ public class RecordActivity extends AppCompatActivity {
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
+    }
+
+    public void MediaPlayerReady() {
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
     }
 
     public String CreateRandomAudioFileName(int string) {
