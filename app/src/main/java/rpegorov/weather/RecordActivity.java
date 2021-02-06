@@ -66,12 +66,12 @@ public class RecordActivity extends AppCompatActivity {
                             Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
                                     CreateRandomAudioFileName(5) + "AudioRec.3gp";
 
-                    createAudioRecorder();
+                    MediaRecorderReady();
 
                     try {
-                        audioRecord.startRecording();
-//                        mediaRecorder.start();
-                    } catch (IllegalStateException e) {
+                        mediaRecorder.prepare();
+                        mediaRecorder.start();
+                    } catch (IllegalStateException | IOException e) {
                         e.printStackTrace();
                     }
 
@@ -90,7 +90,7 @@ public class RecordActivity extends AppCompatActivity {
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                audioRecord.stop();
+                mediaRecorder.stop();
                 buttonStop.setEnabled(false);
                 buttonPlayLastRecordAudio.setEnabled(true);
                 buttonStart.setEnabled(true);
@@ -140,7 +140,7 @@ public class RecordActivity extends AppCompatActivity {
                 if (mediaPlayer != null) {
                     mediaPlayer.stop();
                     mediaPlayer.release();
-                    createAudioRecorder();
+                    MediaRecorderReady();
                 }
             }
         });
@@ -154,33 +154,33 @@ public class RecordActivity extends AppCompatActivity {
      * @ NoiseSuppressor.isAvailable() включение шумоподавление
      * @getAudioSessionId выбор сессии шумоподавления
      */
-//    public void MediaRecorderReady() {
-//        mediaRecorder = new MediaRecorder();
-//        NoiseSuppressor.isAvailable();
-//        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//        NoiseSuppressor.create(audioRecord.getAudioSessionId());
-//        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
-//        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
-//        mediaRecorder.setOutputFile(AudioSavePathInDevice);
-//    }
-    public void createAudioRecorder() {
-        int sampleRate = 8000;
-        int channelConfig = AudioFormat.CHANNEL_IN_MONO;
-        int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
-
-        int minInternalBufferSize = AudioRecord.getMinBufferSize(sampleRate,
-                channelConfig, audioFormat);
-        int internalBufferSize = minInternalBufferSize * 4;
-        NoiseSuppressor.create(audioRecord.getAudioSessionId());
+    public void MediaRecorderReady() {
+        mediaRecorder = new MediaRecorder();
         NoiseSuppressor.isAvailable();
-
-        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                sampleRate,
-                channelConfig,
-                audioFormat,
-                internalBufferSize
-        );
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//        NoiseSuppressor.create(audioRecord.getAudioSessionId());
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
+        mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
+//    public void createAudioRecorder() {
+//        int sampleRate = 8000;
+//        int channelConfig = AudioFormat.CHANNEL_IN_MONO;
+//        int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+//
+//        int minInternalBufferSize = AudioRecord.getMinBufferSize(sampleRate,
+//                channelConfig, audioFormat);
+//        int internalBufferSize = minInternalBufferSize * 4;
+//        NoiseSuppressor.create(audioRecord.getAudioSessionId());
+//        NoiseSuppressor.isAvailable();
+//
+//        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
+//                sampleRate,
+//                channelConfig,
+//                audioFormat,
+//                internalBufferSize
+//        );
+//    }
 
     /**
      * Реализация класса MediaPlayer
