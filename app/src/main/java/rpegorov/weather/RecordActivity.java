@@ -151,36 +151,19 @@ public class RecordActivity extends AppCompatActivity {
      * @OutputFormat устанавливает исходящий формат
      * @AudioEncoder выбор кодека кодирования
      * @setOutputFile расположение исходящего файла
-     * @ NoiseSuppressor.isAvailable() включение шумоподавление
+     * @NoiseSuppressor.isAvailable() проверка на наличие поддержки шумоподавления
      * @getAudioSessionId выбор сессии шумоподавления
      */
     public void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
-        NoiseSuppressor.isAvailable();
+        if  (NoiseSuppressor.isAvailable()) {
+            NoiseSuppressor.create(audioRecord.getAudioSessionId());
+        }
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//        NoiseSuppressor.create(audioRecord.getAudioSessionId());
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
-//    public void createAudioRecorder() {
-//        int sampleRate = 8000;
-//        int channelConfig = AudioFormat.CHANNEL_IN_MONO;
-//        int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
-//
-//        int minInternalBufferSize = AudioRecord.getMinBufferSize(sampleRate,
-//                channelConfig, audioFormat);
-//        int internalBufferSize = minInternalBufferSize * 4;
-//        NoiseSuppressor.create(audioRecord.getAudioSessionId());
-//        NoiseSuppressor.isAvailable();
-//
-//        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
-//                sampleRate,
-//                channelConfig,
-//                audioFormat,
-//                internalBufferSize
-//        );
-//    }
 
     /**
      * Реализация класса MediaPlayer

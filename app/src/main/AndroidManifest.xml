@@ -18,7 +18,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="ExtraText"
-            android:requestLegacyExternalStorage="true" tools:targetApi="q">
+            android:requestLegacyExternalStorage="true" tools:targetApi="q"
+            android:networkSecurityConfig="@xml/network_security_config">
+
 
         <activity android:name=".MainActivity">
             <intent-filter>
