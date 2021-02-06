@@ -55,8 +55,8 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            viewMax.setText(response.getJSONObject("main").getDouble("temp_max") + " ℃");
-                            viewMin.setText(response.getJSONObject("main").getDouble("temp_min") + " ℃");
+                            viewMax.setText(String.valueOf(response.getJSONObject("main").getDouble("temp_max")));
+                            viewMin.setText(String.valueOf(response.getJSONObject("main").getDouble("temp_min")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
