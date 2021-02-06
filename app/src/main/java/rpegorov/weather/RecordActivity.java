@@ -1,17 +1,14 @@
 package rpegorov.weather;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,6 +22,9 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static rpegorov.weather.R.layout.activity_record;
 
+/**
+ * Класс записи и воспроизведения записанного звука
+ */
 public class RecordActivity extends AppCompatActivity {
     Button buttonStart, buttonStop, buttonPlayLastRecordAudio,
             buttonStopPlayingRecording;
@@ -52,6 +52,10 @@ public class RecordActivity extends AppCompatActivity {
         String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, permissions, RequestPermissionCode);
 
+/** Метод инициазирует запись звука по клику кнопки
+ * @AudioSavePathInDevice - указывает путь созранения и методом
+ * @CreateRandomAudioFileName генерирует случайное имя файла
+ */
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +86,7 @@ public class RecordActivity extends AppCompatActivity {
 
             }
         });
-
+/** Метод остановки записи звука по клику кнопки*/
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +100,9 @@ public class RecordActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
-
+/** Метод проигрывания последнего файла
+ * @setDataSource указывает на файл для проигрывания
+ * */
         buttonPlayLastRecordAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) throws IllegalArgumentException,
@@ -122,7 +128,7 @@ public class RecordActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
-
+/** Реализация остановки проигрывания файла по клику*/
         buttonStopPlayingRecording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +146,12 @@ public class RecordActivity extends AppCompatActivity {
         });
     }
 
+    /**Реализация класса  MediaRecorder
+     * @AudioSource указывает на источник записи
+     * @OutputFormat устанавливает исходящий формат
+     * @AudioEncoder выбор кодека кодирования
+     * @setOutputFile расположение исходящего файла
+     */
     public void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -148,7 +160,15 @@ public class RecordActivity extends AppCompatActivity {
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
 
+    /**
+     * Реализация класса MediaPlayer
+     *
+     * @AudioAttributes установка контекста контента
+     * @AudioAttributes установка типа контента
+     * Может быть этот метод и не нужен, надо проверять...
+     */
     public void MediaPlayerReady() {
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
                 new AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -157,6 +177,9 @@ public class RecordActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Метод создания рандомного имени файла
+     */
     public String CreateRandomAudioFileName(int string) {
         StringBuilder stringBuilder = new StringBuilder(string);
         int i = 0;
@@ -169,6 +192,11 @@ public class RecordActivity extends AppCompatActivity {
         return stringBuilder.toString();
     }
 
+    /**
+     * requestPermission
+     * onRequestPermissionsResult
+     * запрос разрешение на чтение, запись, доступ к памяти
+     */
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new
                 String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
@@ -197,6 +225,9 @@ public class RecordActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Метод проверки разрешений
+     */
     public boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(),
                 WRITE_EXTERNAL_STORAGE);
