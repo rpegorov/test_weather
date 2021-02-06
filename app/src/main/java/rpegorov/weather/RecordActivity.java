@@ -2,10 +2,7 @@ package rpegorov.weather;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.media.AudioAttributes;
-import android.media.AudioRecord;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
+import android.media.*;
 import android.media.audiofx.NoiseSuppressor;
 import android.os.Bundle;
 import android.os.Environment;
@@ -69,12 +66,12 @@ public class RecordActivity extends AppCompatActivity {
                             Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
                                     CreateRandomAudioFileName(5) + "AudioRec.3gp";
 
-                    MediaRecorderReady();
+                    createAudioRecorder();
 
                     try {
-                        mediaRecorder.prepare();
-                        mediaRecorder.start();
-                    } catch (IllegalStateException | IOException e) {
+                        audioRecord.startRecording();
+//                        mediaRecorder.start();
+                    } catch (IllegalStateException e) {
                         e.printStackTrace();
                     }
 
@@ -93,7 +90,7 @@ public class RecordActivity extends AppCompatActivity {
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaRecorder.stop();
+                audioRecord.stop();
                 buttonStop.setEnabled(false);
                 buttonPlayLastRecordAudio.setEnabled(true);
                 buttonStart.setEnabled(true);
@@ -143,7 +140,7 @@ public class RecordActivity extends AppCompatActivity {
                 if (mediaPlayer != null) {
                     mediaPlayer.stop();
                     mediaPlayer.release();
-                    MediaRecorderReady();
+                    createAudioRecorder();
                 }
             }
         });
@@ -157,14 +154,32 @@ public class RecordActivity extends AppCompatActivity {
      * @ NoiseSuppressor.isAvailable() включение шумоподавление
      * @getAudioSessionId выбор сессии шумоподавления
      */
-    public void MediaRecorderReady() {
-        mediaRecorder = new MediaRecorder();
-        NoiseSuppressor.isAvailable();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//    public void MediaRecorderReady() {
+//        mediaRecorder = new MediaRecorder();
+//        NoiseSuppressor.isAvailable();
+//        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//        NoiseSuppressor.create(audioRecord.getAudioSessionId());
+//        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
+//        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
+//        mediaRecorder.setOutputFile(AudioSavePathInDevice);
+//    }
+    public void createAudioRecorder() {
+        int sampleRate = 8000;
+        int channelConfig = AudioFormat.CHANNEL_IN_MONO;
+        int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+
+        int minInternalBufferSize = AudioRecord.getMinBufferSize(sampleRate,
+                channelConfig, audioFormat);
+        int internalBufferSize = minInternalBufferSize * 4;
         NoiseSuppressor.create(audioRecord.getAudioSessionId());
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
-        mediaRecorder.setOutputFile(AudioSavePathInDevice);
+        NoiseSuppressor.isAvailable();
+
+        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
+                sampleRate,
+                channelConfig,
+                audioFormat,
+                internalBufferSize
+        );
     }
 
     /**
