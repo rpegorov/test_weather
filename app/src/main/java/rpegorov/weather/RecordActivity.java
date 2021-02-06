@@ -1,10 +1,12 @@
 package rpegorov.weather;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import java.util.Random;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static rpegorov.weather.R.layout.activity_record;
 
 public class RecordActivity extends AppCompatActivity {
@@ -44,7 +47,8 @@ public class RecordActivity extends AppCompatActivity {
         buttonStopPlayingRecording.setEnabled(false);
 
         random = new Random();
-
+        String[] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+        ActivityCompat.requestPermissions(this, permissions, RequestPermissionCode);
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,8 +56,8 @@ public class RecordActivity extends AppCompatActivity {
                 if (checkPermission()) {
 
                     AudioSavePathInDevice =
-                            Environment.getExternalStorageState() + "/" +
-                                    CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+                            Environment.getStorageDirectory() + "/" +
+                                    CreateRandomAudioFileName(5) + "AudioRec";
 
                     MediaRecorderReady();
 
@@ -133,8 +137,8 @@ public class RecordActivity extends AppCompatActivity {
     public void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);  // THREE_GPP
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.MPEG_4);  // AMR_NB
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
 
@@ -151,8 +155,8 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(RecordActivity.this, new
-                String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
+        ActivityCompat.requestPermissions(this, new
+                String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
     }
 
     @Override
@@ -181,9 +185,12 @@ public class RecordActivity extends AppCompatActivity {
     public boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(),
                 WRITE_EXTERNAL_STORAGE);
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(),
+                READ_EXTERNAL_STORAGE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),
                 RECORD_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED &&
-                result1 == PackageManager.PERMISSION_GRANTED;
+                result1 == PackageManager.PERMISSION_GRANTED &&
+                result2 == PackageManager.PERMISSION_GRANTED;
     }
 }
