@@ -3,8 +3,10 @@ package rpegorov.weather;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
+import android.media.AudioRecord;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.media.audiofx.NoiseSuppressor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -30,6 +32,7 @@ public class RecordActivity extends AppCompatActivity {
             buttonStopPlayingRecording;
     String AudioSavePathInDevice = null;
     MediaRecorder mediaRecorder;
+    AudioRecord audioRecord;
     Random random;
     String RandomAudioFileName = "QWERTY";
     public static final int RequestPermissionCode = 1;
@@ -151,10 +154,14 @@ public class RecordActivity extends AppCompatActivity {
      * @OutputFormat устанавливает исходящий формат
      * @AudioEncoder выбор кодека кодирования
      * @setOutputFile расположение исходящего файла
+     * @ NoiseSuppressor.isAvailable() включение шумоподавление
+     * @getAudioSessionId выбор сессии шумоподавления
      */
     public void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
+        NoiseSuppressor.isAvailable();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        NoiseSuppressor.create(audioRecord.getAudioSessionId());
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);  // THREE_GPP
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);  // AMR_NB
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
